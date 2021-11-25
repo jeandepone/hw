@@ -15,13 +15,13 @@ async def post(request):
     data = json.loads(await request.read())
     async with request.app["pool"].acquire() as conn:
         await conn.execute("insert into table1(data) values ($1::json)", data)
-    return Response(status=202)
+    return Response()
 
 
 async def delete(request):
     async with request.app["pool"].acquire() as conn:
         await conn.execute("delete from table1")
-    return Response(status=202)
+    return Response()
 
 
 async def app():
