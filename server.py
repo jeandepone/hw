@@ -12,10 +12,9 @@ async def get(request):
 
 
 async def post(request):
+    data = json.loads(await request.read())
     async with request.app["pool"].acquire() as conn:
-        await conn.execute(
-            "insert into table1(data) values ($1::json)", {"cou": "robert"}
-        )
+        await conn.execute("insert into table1(data) values ($1::json)", data)
     return Response()
 
 
@@ -25,7 +24,7 @@ async def app():
         os.environ.get("DATABASE_URL", "postgres://test:testpwd@localhost:5432/test")
     )
     async with pool.acquire() as conn:
-        #await conn.execute("drop table if exists table1")
+        # await conn.execute("drop table if exists table1")
         await conn.execute("create table if not exists table1(id Serial, data jsonb)")
         await conn.set_type_codec(
             "json", encoder=json.dumps, decoder=json.loads, schema="pg_catalog"
@@ -36,4 +35,4 @@ async def app():
 
 
 if __name__ == "__main__":
-    web.run_app(app())
+    web.run_app(app(), port=int(os.environ.get("PORT", 8888)))
