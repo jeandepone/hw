@@ -18,6 +18,12 @@ async def post(request):
     return Response()
 
 
+async def delete(request):
+    async with request.app["pool"].acquire() as conn:
+        await conn.execute("delete from table1")
+    return Response()
+
+
 async def app():
     app = web.Application()
     pool = await asyncpg.create_pool(
@@ -30,7 +36,9 @@ async def app():
             "json", encoder=json.dumps, decoder=json.loads, schema="pg_catalog"
         )
     app["pool"] = pool
-    app.add_routes([web.get("/coucou", get), web.post("/", post)])
+    app.add_routes(
+        [web.get("/coucou", get), web.get("/coucoudelete", delete), web.post("/", post)]
+    )
     return app
 
 
