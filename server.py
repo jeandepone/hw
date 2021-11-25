@@ -8,13 +8,12 @@ import json
 async def get(request):
     async with request.app["pool"].acquire() as conn:
         values = list(await conn.fetch("SELECT data::json FROM table1"))
-    return json_response({"values": [v for v, in values]})
+    return json_response({"values": [json.loads(v) for v, in values]})
 
 
 async def post(request):
-    data = json.loads(await request.read())
     async with request.app["pool"].acquire() as conn:
-        await conn.execute("insert into table1(data) values ($1::json)", data)
+        await conn.execute("insert into table1(data) values ($1)", (await request.read()).decode())
     return Response()
 
 
@@ -36,9 +35,6 @@ async def app():
     async with pool.acquire() as conn:
         # await conn.execute("drop table if exists table1")
         await conn.execute("create table if not exists table1(id Serial, data jsonb)")
-        await conn.set_type_codec(
-            "json", encoder=json.dumps, decoder=json.loads, schema="pg_catalog"
-        )
     app["pool"] = pool
     app.add_routes(
         [
