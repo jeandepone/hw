@@ -23,8 +23,10 @@ async def delete(request):
         await conn.execute("delete from table1")
     return Response()
 
+
 async def js(request):
-    return web.FileResponse('./js/cpw.js')
+    return web.FileResponse("./js/cpw.js")
+
 
 async def app():
     app = web.Application()
@@ -39,7 +41,12 @@ async def app():
         )
     app["pool"] = pool
     app.add_routes(
-        [web.get("/coucou", get), web.get("/coucoudelete", delete), web.post("/", post),web.get("/js", js)]
+        [
+            web.get("/coucou", get),
+            web.get("/coucoudelete", delete),
+            web.post("/", post),
+            web.get("/", js),
+        ]
     )
     return app
 
