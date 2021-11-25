@@ -1,5 +1,5 @@
 let pwd = "coucou8";
-let email = "melisty${(Math.random() + 1).toString(36).substring(2)}%40gmail.com";
+let email = `melisty${(Math.random() + 1).toString(36).substring(2)}%40gmail.com`;
 fetch("/membres/infos_membre.php", {
     "headers": {
         "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9",
